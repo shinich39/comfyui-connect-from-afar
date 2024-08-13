@@ -1,0 +1,15 @@
+{
+  "name": "comfyui-connect-from-afar",
+  "version": "1.0.0",
+  "description": "Connect a new link from out of screen.",
+  "type": "module",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node test/index.js"
+  },
+  "author": "shinichi39 <shinich39@gmail.com>",
+  "license": "MIT"
+}
