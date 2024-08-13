@@ -96,14 +96,14 @@ app.registerExtension({
 
           if (isConnected) {
             disconnectOptions.push({
-              content: `${n.title} : ${s.name}`,
+              content: `${n.title} / ${s.name}`,
               callback: () => {
                 app.graph.removeLink(link.id);
               }
             });
           } else {
             connectOptions.push({
-              content: `${n.title} : ${s.name}`,
+              content: `${n.title} / ${s.name}`,
               callback: () => {
                 node.connect(...args);
               }
