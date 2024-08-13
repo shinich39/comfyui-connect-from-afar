@@ -2,7 +2,7 @@
 
 Connect a new link from out of screen.  
 
-## Feaures
+## Features
 
 - Connect node from out of screen.
 

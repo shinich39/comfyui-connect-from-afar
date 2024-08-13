@@ -52,10 +52,12 @@ app.registerExtension({
       const isOutput = !!output;
       const type = isInput ? input.type : (isOutput ? output.type : null);
       if (!type) {
+        console.log(type)
         return r;
       }
 
-      let newOptions = [null];
+      let disconnectOptions = [null];
+      let connectOptions = [null];
       for (const n of app.graph._nodes) {
         if (n.id === this.id) {
           continue;
@@ -73,27 +75,58 @@ app.registerExtension({
         }
 
         for (const s of slots) {
-          newOptions.push({
-            content: `${n.title} : ${s.name}`,
-            callback: () => {
-              let node, args;
-              if (isInput) {
-                node = n;
-                args = [n.findOutputSlot(s.name), self.id, slot];
-              } else if (isOutput) {
-                node = self;
-                args = [slot, n.id, n.findInputSlot(s.name)];
-              } else {
-                return;
+          let node, args;
+          if (isInput) {
+            node = n;
+            args = [n.findOutputSlot(s.name), self.id, slot];
+          } else if (isOutput) {
+            node = self;
+            args = [slot, n.id, n.findInputSlot(s.name)];
+          } else {
+            continue;
+          }
+
+          const link = app.graph.links.find(e => e && 
+            e.origin_id === node.id &&
+            e.origin_slot === args[0] &&
+            e.target_id === args[1] &&
+            e.target_slot === args[2]);
+
+          const isConnected = !!link;
+
+          if (isConnected) {
+            disconnectOptions.push({
+              content: `${n.title} : ${s.name}`,
+              callback: () => {
+                app.graph.removeLink(link.id);
               }
-              node.connect(...args);
-            }
-          })
+            });
+          } else {
+            connectOptions.push({
+              content: `${n.title} : ${s.name}`,
+              callback: () => {
+                node.connect(...args);
+              }
+            });
+          }
         }
       }
-      
 
-      return [...r, ...newOptions];
+      if (disconnectOptions.length === 1) {
+        disconnectOptions.push({
+          content: "No connections",
+          disabled: true,
+        });
+      }
+
+      if (connectOptions.length === 1) {
+        connectOptions.push({
+          content: `No ${isInput ? "inputs" : (isOutput ? "outputs" : "")}`,
+          disabled: true,
+        });
+      }
+
+      return [...r, ...disconnectOptions, ...connectOptions];
     }
 	},
 });
