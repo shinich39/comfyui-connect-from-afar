@@ -121,7 +121,7 @@ app.registerExtension({
 
       if (connectOptions.length === 1) {
         connectOptions.push({
-          content: `No ${isInput ? "inputs" : (isOutput ? "outputs" : "")}`,
+          content: `No ${isInput ? "outputs" : (isOutput ? "inputs" : "")}`,
           disabled: true,
         });
       }
