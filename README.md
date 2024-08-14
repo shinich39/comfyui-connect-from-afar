@@ -8,4 +8,5 @@ Connect a new link from out of screen.
 
 ## Usage
 
-Mouse right click > Click the "NODE NAME / SLOT NAME" button to connect or disconnect.
+1. Mouse right click on slot.
+2. Click the "NODE NAME / SLOT NAME" button to connect or disconnect.
