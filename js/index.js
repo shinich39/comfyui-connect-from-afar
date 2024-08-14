@@ -3,6 +3,16 @@
 import { app } from "../../../scripts/app.js";
 import { api } from "../../../scripts/api.js";
 
+function isValidType(a, b) {
+  if (["any", "*"].indexOf(a.toLowerCase()) > -1) {
+    return true;
+  }
+  if (["any", "*"].indexOf(b.toLowerCase()) > -1) {
+    return true;
+  }
+  return a === b;
+}
+
 function originalSlotMenuOptions(slot) {
   let menu_info = [];
   if (
@@ -52,7 +62,6 @@ app.registerExtension({
       const isOutput = !!output;
       const type = isInput ? input.type : (isOutput ? output.type : null);
       if (!type) {
-        console.log(type)
         return r;
       }
 
@@ -65,9 +74,9 @@ app.registerExtension({
 
         let slots = [];
         if (isInput) {
-          slots = n.outputs?.filter(e => e.type === type) ?? [];
+          slots = n.outputs?.filter(e => isValidType(e.type, type)) ?? [];
         } else if (isOutput) {
-          slots = n.inputs?.filter(e => e.type === type) ?? [];
+          slots = n.inputs?.filter(e => isValidType(e.type, type)) ?? [];
         }
         
         if (slots.length < 1) {
