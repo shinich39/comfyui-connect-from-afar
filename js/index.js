@@ -4,10 +4,12 @@ import { app } from "../../../scripts/app.js";
 import { api } from "../../../scripts/api.js";
 
 function isValidType(a, b) {
-  if (["any", "*"].indexOf(a.toLowerCase()) > -1) {
+  a = a.toLowerCase();
+  b = b.toLowerCase();
+  if (["any", "*"].indexOf(a) > -1) {
     return true;
   }
-  if (["any", "*"].indexOf(b.toLowerCase()) > -1) {
+  if (["any", "*"].indexOf(b) > -1) {
     return true;
   }
   return a === b;
